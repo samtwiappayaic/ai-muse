@@ -29,8 +29,13 @@ function Controller() {
         formData.append("file", blob, "myFile.wav");
 
         // Send form data to API endpoint
-        await axios
-          .post("http://localhost:8000/post-audio/", formData, {
+        // await axios
+        //   .post("http://localhost:8000/post-audio/", formData, {
+        //     headers: { "Content-Type": "audio/mpeg" },
+        //     responseType: "arraybuffer",
+        //   })
+          await axios
+          .post("https://bbd85da57e47d4.lhr.life/post-audio/", formData, {
             headers: { "Content-Type": "audio/mpeg" },
             responseType: "arraybuffer",
           })
