@@ -10,7 +10,7 @@ import openai
 
 #Custom Function Imports
 from functions.openai_requests import convert_audio_to_text, get_chat_response
-from functions.database import store_messages, reset_messages
+from functions.database import store_messages, reset_messages, store_long_term_messages
 from functions.text_to_speech import convert_text_to_speech
 
 #Initiate app
@@ -58,8 +58,13 @@ async def post_audio(file: UploadFile = File(...)):
         buffer.write(file.file.read())
     audio_input = open(file.filename, "rb")
 
+    print('ok1')
+
     #Decode audio
     message_decoded = convert_audio_to_text(audio_input)
+
+    print('ok2')
+
     
     #Guard: Ensure message decoded
     if not message_decoded:
@@ -68,15 +73,27 @@ async def post_audio(file: UploadFile = File(...)):
     # Get ChatGPT response
     chat_response = get_chat_response(message_decoded)
 
+    print('ok3')
+
+
     #Guard: Ensure message decoded
     if not chat_response:
         return HTTPException(status_code=400, detail="Failed to get chat response")
 
     #Store messages
     store_messages(message_decoded, chat_response)
+    store_long_term_messages(message_decoded, chat_response)
+
+    print('ok4')
+
+
+    #Store long term memory. I guess we are already doing that though
 
     #Convert chat response to audio
     audio_output = convert_text_to_speech(chat_response)
+
+    print('ok5')
+
     
 
     #Guard: Ensure message decoded
