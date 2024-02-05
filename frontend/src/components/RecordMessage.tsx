@@ -2,13 +2,14 @@ import { ReactMediaRecorder } from "react-media-recorder";
 import RecordIcon from "./RecordIcon";
 
 type Props = {
-  handleStop: any;
+  handleStart: any;
 };
-function RecordMessage({ handleStop }: Props) {
+function RecordMessage({ handleStart }: Props) {
   return (
     <ReactMediaRecorder
       audio
-      onStop={handleStop}
+      onStart={handleStart}
+      // onStop={handleStop}
       render={({ status, startRecording, stopRecording }) => (
         <div className="mt-2">
           <button
